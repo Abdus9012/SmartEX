@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartEx Payment</title>
+</head>
+<body>
+    <h1>Welcome to SmartEx Payment</h1>
+
+    <h2>Create User</h2>
+    <form id="createUserForm">
+        <input type="text" id="userId" placeholder="User ID" required>
+        <input type="text" id="userName" placeholder="User Name" required>
+        <input type="number" id="userBalance" placeholder="Balance" required>
+        <button type="submit">Create</button>
+    </form>
+
+    <h2>Make Payment</h2>
+    <form id="paymentForm">
+        <input type="text" id="senderId" placeholder="Sender ID" required>
+        <input type="text" id="receiverId" placeholder="Receiver ID" required>
+        <input type="number" id="amount" placeholder="Amount" required>
+        <button type="submit">Transfer</button>
+    </form>
+
+    <script>
+        document.getElementById("createUserForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            fetch(`/users/create?userId=${userId.value}&name=${userName.value}&balance=${userBalance.value}`, { method: "POST" })
+                .then(response => response.json())
+                .then(data => alert("User Created: " + JSON.stringify(data)));
+        });
+
+        document.getElementById("paymentForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            fetch(`/payments/transfer?senderId=${senderId.value}&receiverId=${receiverId.value}&amount=${amount.value}`, { method: "POST" })
+                .then(response => response.text())
+                .then(data => alert(data));
+        });
+    </script>
+</body>
+</html>
